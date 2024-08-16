@@ -4,7 +4,10 @@ import com.zipcodewilmington.bakery.models.Baker;
 import com.zipcodewilmington.bakery.services.BakerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
+@RestController
 public class BakerController {
     private BakerService service;
 
@@ -16,19 +19,24 @@ public class BakerController {
         return new ResponseEntity<>(service.index(), HttpStatus.OK);
     }
 
-    public ResponseEntity<Baker> show(Long id) {
+    @GetMapping (value = "/bakers/{id}")
+    //could do @RequestMapping method aswell and signify GET
+    public ResponseEntity<Baker> show(@PathVariable("id") Long id) {
         return new ResponseEntity<>(service.show(id), HttpStatus.OK);
     }
 
-    public ResponseEntity<Baker> create(Baker baker) {
+    @PostMapping (value = "/bakers/")
+    public ResponseEntity<Baker> create(@RequestBody Baker baker) {
         return new ResponseEntity<>(service.create(baker), HttpStatus.CREATED);
     }
 
-    public ResponseEntity<Baker> update(Long id, Baker baker) {
+    @PutMapping (value = "/bakers/{id}")
+    public ResponseEntity<Baker> update(@PathVariable("id") Long id, Baker baker) {
         return new ResponseEntity<>(service.update(id, baker), HttpStatus.OK);
     }
 
-    public ResponseEntity<Boolean> destroy(Long id) {
+    @DeleteMapping (value = "bakers/")
+    public ResponseEntity<Boolean> destroy(@RequestBody Long id) {
         return new ResponseEntity<>(service.delete(id), HttpStatus.OK);
     }
 }
